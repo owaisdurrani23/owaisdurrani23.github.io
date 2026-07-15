@@ -403,12 +403,27 @@ section { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
 
 .fd-edge { fill: none; stroke-linecap: round; }
 .fd-edge-resilient { stroke: var(--teal); stroke-width: 2.5; }
-.fd-edge-stable { stroke: var(--ink); stroke-width: 2; opacity: 0.55; }
-.fd-edge-vulnerable {
+.fd-edge-direct {
   stroke: var(--slate);
   stroke-width: 2;
   stroke-dasharray: 5 5;
   opacity: 0.55;
+}
+.fd-edge-indirect {
+  stroke: var(--amber);
+  stroke-width: 2.25;
+  stroke-dasharray: 1 5;
+  opacity: 0.75;
+}
+
+.fd-congestion {
+  fill: var(--amber);
+  animation: fd-congest-pulse 2.2s ease-in-out infinite;
+}
+
+@keyframes fd-congest-pulse {
+  0%, 100% { opacity: 0.15; r: 3px; }
+  50% { opacity: 0.9; r: 4px; }
 }
 
 .fd-node circle { fill: var(--paper-raised); stroke: var(--ink); stroke-width: 1.6; }
@@ -449,6 +464,65 @@ section { padding: clamp(2.5rem, 6vw, 4.5rem) 0; }
   0%, 40% { opacity: 0; }
   50%, 68% { opacity: 1; }
   78%, 100% { opacity: 0; }
+}
+
+/* ---------- Impact matrix (Direct/Indirect x Tangible/Intangible) ---------- */
+
+.impact-matrix {
+  display: grid;
+  grid-template-columns: 110px 1fr 1fr;
+  gap: 0.7rem;
+  align-items: stretch;
+}
+
+.im-corner { }
+
+.im-col-label,
+.im-row-label {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--slate);
+  display: flex;
+  align-items: center;
+}
+.im-col-label { justify-content: center; padding-bottom: 0.4rem; }
+.im-row-label { justify-content: flex-start; }
+
+.im-cell {
+  border-radius: 8px;
+  padding: 1.4rem;
+  border: 1px solid var(--line);
+}
+.im-cell h3 { font-size: 1rem; margin: 0.3em 0 0.4em; }
+.im-cell p { margin: 0; font-size: 0.88rem; color: var(--ink-soft); }
+
+.im-tag {
+  font-family: var(--font-mono);
+  font-size: 0.72rem;
+  padding: 0.2em 0.5em;
+  border-radius: 4px;
+  display: inline-block;
+}
+
+.im-active {
+  background: rgba(31, 110, 110, 0.07);
+  border-color: var(--teal);
+}
+.im-active .im-tag { background: var(--teal); color: var(--paper-raised); }
+
+.im-muted {
+  background: var(--paper);
+  opacity: 0.7;
+}
+.im-muted .im-tag { background: var(--line-strong); color: var(--ink-soft); }
+.im-muted p { color: var(--slate); }
+
+@media (max-width: 640px) {
+  .impact-matrix { grid-template-columns: 1fr; }
+  .im-corner, .im-col-label { display: none; }
+  .im-row-label { padding: 0.6rem 0 0.2rem; }
 }
 
 /* ---------- Footer ---------- */
